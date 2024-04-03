@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "768066754085",
+    "project_id": "truckhub-e5499",
+    "storage_bucket": "truckhub-e5499.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768066754085:android:8d25e3689ce5789e3951cc",
+        "android_client_info": {
+          "package_name": "com.truck.trucks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZN1s-QKMwAFKN4LsU-nlXGeJlUTSglwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
