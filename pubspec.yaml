@@ -58,6 +58,8 @@ dependencies:
   firebase_core: 
   google_maps_webservice: ^0.0.20-nullsafety.5
   google_api_headers: ^1.6.0
+  firebase_storage: ^11.7.0
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

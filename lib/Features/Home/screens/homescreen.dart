@@ -19,8 +19,7 @@ final homekey = GlobalKey<ScaffoldState>();
 
 class _HomeState extends State<Home> {
   final locationCtrl = location.Location();
-  static const mountainView = LatLng(37.3861, -122.0839);
-
+  LatLng? destination;
   LatLng? currentPosition;
 
   Future<void> fetchLocationUpdates() async {
@@ -61,13 +60,30 @@ class _HomeState extends State<Home> {
     showSnackBar(context, response.errorMessage!);
   }
 
+  late GoogleMapController googleMapController;
+
   Future<void> displayPrediction(
-    Prediction? p,
+    Prediction p,
     ScaffoldState currentState,
   ) async {
     GoogleMapsPlaces places = GoogleMapsPlaces(
       apiKey: kGoogleApiKey,
       apiHeaders: await const GoogleApiHeaders().getHeaders(),
+    );
+
+    PlacesDetailsResponse detail = await places.getDetailsByPlaceId(
+      p.placeId!,
+    );
+
+    final lat = detail.result.geometry!.location.lat;
+    final lng = detail.result.geometry!.location.lng;
+
+    destination = LatLng(lat, lng);
+
+    setState(() {});
+
+    googleMapController.animateCamera(
+      CameraUpdate.newLatLngZoom(destination!, 14),
     );
   }
 
@@ -81,10 +97,10 @@ class _HomeState extends State<Home> {
       strictbounds: false,
       types: [""],
       decoration: const InputDecoration(hintText: "Search places"),
-      components: [Component(Component.country, "fr")],
+      components: [Component(Component.country, "Ng")],
     );
 
-    displayPrediction(p, homekey.currentState!);
+    displayPrediction(p!, homekey.currentState!);
   }
 
   @override
@@ -114,16 +130,29 @@ class _HomeState extends State<Home> {
                       icon: BitmapDescriptor.defaultMarker,
                       position: currentPosition!,
                     ),
-                    const Marker(
-                      markerId: MarkerId("destinationLocation"),
+                    Marker(
+                      markerId: const MarkerId("destinationLocation"),
                       icon: BitmapDescriptor.defaultMarker,
-                      position: mountainView,
+                      position: destination == null
+                          ? const LatLng(37.3861, -122.0839)
+                          : destination!,
+                      onTap: () {
+                        showSnackBar(context, "good");
+                      },
                     ),
                   },
+                  onMapCreated: (controller) {
+                    googleMapController = controller;
+                  },
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Search Places"),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: handleSearch,
+                      child: const Text("Search Places"),
+                    ),
+                  ),
                 ),
               ],
             ),

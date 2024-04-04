@@ -1,25 +1,22 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Utils/spacing.dart';
 import 'package:trucks/Common/Widgets/custom_button.dart';
-import 'package:trucks/Common/Widgets/textfield.dart';
+import 'package:trucks/Common/Widgets/textarea.dart';
 import 'package:trucks/Features/Auth/controllers/auth_controllers.dart';
-import 'package:trucks/Features/Auth/screens/login.dart';
 import 'package:trucks/Features/Auth/widgets/custom_text.dart';
 
-class SignUp extends ConsumerStatefulWidget {
-  static const routeName = "/Sign-up";
-  const SignUp({super.key});
+class DriverSignUp extends ConsumerStatefulWidget {
+  final VoidCallback next;
+  const DriverSignUp({super.key, required this.next});
 
   @override
-  ConsumerState<SignUp> createState() => _SignUpState();
+  ConsumerState<DriverSignUp> createState() => _DriverSignUpState();
 }
 
-class _SignUpState extends ConsumerState<SignUp> {
+class _DriverSignUpState extends ConsumerState<DriverSignUp> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final nameController = TextEditingController();
@@ -34,7 +31,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   }
 
   void signUserUp() {
-    ref.read(authControllerProvider).signUserUp(
+    ref.read(authControllerProvider).signDriverUp(
           context: context,
           name: nameController.text.trim(),
           email: emailController.text.trim(),
@@ -53,10 +50,6 @@ class _SignUpState extends ConsumerState<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        elevation: 0,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
@@ -83,11 +76,16 @@ class _SignUpState extends ConsumerState<SignUp> {
                   colorName: AppColors.blackColor,
                 ),
                 SpacingManager.h25,
-                CustomTextField2(
+                TextAreas(
                   controller: nameController,
                   hintText: 'Name',
-                  obscureText: false,
-                  keyboardType: TextInputType.name,
+                  obscure: false,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.name,
                   validator: (val) {
                     if (val!.isEmpty) {
                       return "Please enter your name";
@@ -98,11 +96,16 @@ class _SignUpState extends ConsumerState<SignUp> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField2(
+                TextAreas(
                   controller: emailController,
                   hintText: 'Email Address',
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
+                  obscure: false,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.emailAddress,
                   validator: (val) {
                     final emailValid = EmailValidator.validate(val!);
                     if (!emailValid) {
@@ -114,15 +117,24 @@ class _SignUpState extends ConsumerState<SignUp> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField2(
+                TextAreas(
+                  minLines: 1,
+                  maxLines: 1,
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: showPassword ? false : true,
-                  keyboardType: TextInputType.visiblePassword,
-                  suffixIcon: showPassword
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  onPressed: passwordVisibility,
+                  obscure: showPassword ? false : true,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.visiblePassword,
+                  suffixIcon: IconButton(
+                    onPressed: passwordVisibility,
+                    icon: showPassword
+                        ? const Icon(Icons.visibility_outlined)
+                        : const Icon(Icons.visibility_off_outlined),
+                  ),
                   validator: (password) {
                     RegExp regex = RegExp(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
@@ -141,7 +153,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                   padding: const EdgeInsets.symmetric(horizontal: 63),
                   child: OnboardingButton(
                     onPressed: () {
-                      signUserUp();
+                      if (formKey.currentState!.validate()) {
+                        signUserUp();
+                      }
                     },
                     child: customTextPppinsSpacing(
                       height: 24 / 16,
@@ -169,9 +183,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                       width: 5,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, LoginPage.routeName);
-                      },
+                      onTap: widget.next,
                       child: customTextPppinsSpacing(
                         height: 24 / 14,
                         inputText: 'Login',

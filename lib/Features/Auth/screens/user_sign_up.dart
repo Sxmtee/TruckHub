@@ -6,21 +6,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Utils/spacing.dart';
 import 'package:trucks/Common/Widgets/custom_button.dart';
-import 'package:trucks/Common/Widgets/textfield.dart';
+import 'package:trucks/Common/Widgets/textarea.dart';
 import 'package:trucks/Features/Auth/controllers/auth_controllers.dart';
 import 'package:trucks/Features/Auth/widgets/custom_text.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  static const routeName = "/Login-page";
-  const LoginPage({super.key});
+class SignUp extends ConsumerStatefulWidget {
+  final VoidCallback next;
+  const SignUp({super.key, required this.next});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<SignUp> createState() => _SignUpState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _SignUpState extends ConsumerState<SignUp> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
   bool showPassword = false;
@@ -31,9 +32,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
   }
 
-  void loginUser() {
-    ref.read(authControllerProvider).signUserIn(
+  void signUserUp() {
+    ref.read(authControllerProvider).signUserUp(
           context: context,
+          name: nameController.text.trim(),
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
@@ -43,17 +45,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    nameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        elevation: 0,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
@@ -66,19 +64,52 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 SpacingManager.h38,
                 customTextPppinsSpacing(
                   height: 32 / 24,
-                  inputText: 'Welcome back!',
+                  inputText: 'Welcome to TruckHub!',
                   fontSize: 24,
                   weight: FontWeight.w600,
                   colorName: AppColors.blackColor,
                 ),
+                SpacingManager.h7,
+                customTextPppinsSpacing(
+                  height: 28 / 24,
+                  inputText: 'Create an account',
+                  fontSize: 20,
+                  weight: FontWeight.w500,
+                  colorName: AppColors.blackColor,
+                ),
                 SpacingManager.h25,
-                CustomTextField2(
+                TextAreas(
+                  controller: nameController,
+                  hintText: 'Name',
+                  obscure: false,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.name,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Please enter your name";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextAreas(
                   controller: emailController,
                   hintText: 'Email Address',
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (email) {
-                    final emailValid = EmailValidator.validate(email!);
+                  obscure: false,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.emailAddress,
+                  validator: (val) {
+                    final emailValid = EmailValidator.validate(val!);
                     if (!emailValid) {
                       return "Please enter a valid email";
                     }
@@ -88,15 +119,24 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField2(
+                TextAreas(
+                  minLines: 1,
+                  maxLines: 1,
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: showPassword ? false : true,
-                  keyboardType: TextInputType.visiblePassword,
-                  suffixIcon: showPassword
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  onPressed: passwordVisibility,
+                  obscure: showPassword ? false : true,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.visiblePassword,
+                  suffixIcon: IconButton(
+                    onPressed: passwordVisibility,
+                    icon: showPassword
+                        ? const Icon(Icons.visibility_outlined)
+                        : const Icon(Icons.visibility_off_outlined),
+                  ),
                   validator: (password) {
                     RegExp regex = RegExp(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
@@ -109,32 +149,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   },
                 ),
                 const SizedBox(
-                  height: 5,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: customTextPppinsSpacing(
-                      height: 24 / 16,
-                      inputText: 'Forgot password?',
-                      fontSize: 12,
-                      weight: FontWeight.w800,
-                      colorName: AppColors.tertiaryColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(
                   height: 64,
                 ),
-                // button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 63),
                   child: OnboardingButton(
-                    onPressed: loginUser,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        signUserUp();
+                      }
+                    },
                     child: customTextPppinsSpacing(
                       height: 24 / 16,
-                      inputText: 'Login',
+                      inputText: 'Create an account',
                       fontSize: 16,
                       weight: FontWeight.w800,
                       colorName: AppColors.primaryColor,
@@ -149,7 +176,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     customTextPppinsSpacing(
                       height: 24 / 14,
-                      inputText: 'Don\'t have an account?',
+                      inputText: 'Have an account?',
                       fontSize: 14,
                       weight: FontWeight.w500,
                       colorName: AppColors.blackColor,
@@ -158,12 +185,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       width: 5,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
+                      onTap: widget.next,
                       child: customTextPppinsSpacing(
                         height: 24 / 14,
-                        inputText: 'Create Account',
+                        inputText: 'Login',
                         fontSize: 14,
                         weight: FontWeight.w400,
                         colorName: AppColors.tertiaryColor,

@@ -6,11 +6,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trucks/Common/Theme/color.dart';
-import 'package:trucks/Common/Utils/assets_location.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
+import 'package:trucks/Common/Utils/string2.dart';
 import 'package:trucks/Features/Auth/screens/onboarding_screen.dart';
-import 'package:trucks/Features/Auth/widgets/circle_containers.dart';
+import 'package:trucks/Features/Auth/widgets/generic_circle.dart';
+import 'package:trucks/Features/Auth/widgets/generic_region.dart';
 import 'package:trucks/Screens/mobile_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -31,7 +31,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             .doc(FirebaseAuth.instance.currentUser?.uid)
             .get();
 
-        if (userData.data() != null) {
+        var driverData = await FirebaseFirestore.instance
+            .collection("drivers")
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
+
+        if (userData.data() != null || driverData.data() != null) {
           Navigator.of(context).pushNamedAndRemoveUntil(
             MobileScreen.routeName,
             (route) => false,
@@ -50,33 +55,27 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            child: Image.asset(
-              Assets.back,
-              width: getProportionateScreenWidth(390),
-              height: getProportionateScreenHeight(844),
-              fit: BoxFit.fill,
+    return GenericAnnotatedRegion(
+      child: Scaffold(
+        body: Container(
+          height: screenHeight,
+          width: screenWidth,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(backgroundPng),
+              fit: BoxFit.cover,
             ),
           ),
-          Positioned(
-            left: getProportionateScreenWidth(45),
-            right: getProportionateScreenWidth(45),
-            top: getProportionateScreenHeight(264),
-            child: CircleContainer(
-              height: getProportionateScreenHeight(250),
-              width: getProportionateScreenWidth(150),
-              color: AppColors.blackColor,
-              borderRadius: 300,
-              child: Center(
-                child: Image.asset(Assets.truck),
-              ),
+          child: Center(
+            child: GenericCircleAvatar(
+              radius: 300,
+              child: Image.asset(truckHubLogoPng),
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

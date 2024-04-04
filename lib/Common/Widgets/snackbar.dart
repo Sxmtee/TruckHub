@@ -9,8 +9,9 @@ showSnackBar(BuildContext context, String content) {
     SizedBox(
       height: 100,
       child: CustomSnackBar.info(
-        backgroundColor: AppColors.primaryColor.withOpacity(0.7),
+        backgroundColor: AppColors.tertiaryColor.withOpacity(0.7),
         message: content,
+        maxLines: 5,
         textStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.white,

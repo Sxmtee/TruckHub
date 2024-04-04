@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trucks/Common/Theme/theme.dart';
+import 'package:trucks/Common/Theme/theme_provider.dart';
 import 'package:trucks/Common/Utils/router.dart';
 import 'package:trucks/Features/Auth/screens/splash_screen.dart';
 import 'package:trucks/Models/user.preferences.dart';
@@ -31,13 +33,13 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeModeState = ref.watch(themesProvider);
     return MaterialApp(
       title: 'TruckHub',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      darkTheme: ThemeState.darkTheme,
+      theme: ThemeState.lightTheme,
+      themeMode: themeModeState,
       onGenerateRoute: (settings) => generateRoute(settings),
       home: const SplashScreen(),
     );
