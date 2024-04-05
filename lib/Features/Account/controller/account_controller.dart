@@ -35,7 +35,7 @@ class AccountController {
     required BuildContext context,
     required UserModel user,
   }) {
-    return updateDriverDetails(
+    return accountRepo.updateDriverDetails(
       context: context,
       user: user,
     );

@@ -12,6 +12,8 @@ const driverPng =
 const phoneMapPng = 'assets/png/Truck-driving-GPS-apps.png';
 
 const nunitoFont = 'Nunito';
+const profilepic =
+    "https://png.pngitem.com/pimgs/s/649-6490124_katie-notopoulos-katienotopoulos-i-write-about-tech-round.png";
 const welcomeBackString = 'Welcome back!';
 const phoneNumberString = 'Phone Number';
 const passwordString = 'Password';

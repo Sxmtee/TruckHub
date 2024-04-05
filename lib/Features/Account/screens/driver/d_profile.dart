@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Utils/loader.dart';
 import 'package:trucks/Common/Widgets/error_screen.dart';
 import 'package:trucks/Features/Account/controller/account_controller.dart';
-import 'package:trucks/Features/Account/screens/account_page.dart';
+import 'package:trucks/Features/Account/screens/driver/d_profile_page.dart';
 
-class ProfileScreen extends ConsumerWidget {
-  static const routeName = "/Profile-screen";
-  const ProfileScreen({super.key});
+class DProfileScreen extends ConsumerWidget {
+  static const routeName = "/D-Profile-screen";
+  const DProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
-      future: ref.watch(accountController).fetchUserAccount(),
+      future: ref.watch(accountController).fetchDriverAccount(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -32,7 +32,7 @@ class ProfileScreen extends ConsumerWidget {
 
         final data = snapshot.data;
 
-        return AccountPage(userModel: data!);
+        return DProfilePage(userModel: data!);
       },
     );
   }

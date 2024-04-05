@@ -2,7 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
-import 'package:trucks/Features/Account/screens/accountscreen.dart';
+import 'package:trucks/Features/Account/screens/driver/d_account.dart';
 import 'package:trucks/Features/Booked/screens/bookedscreen.dart';
 import 'package:trucks/Features/Home/screens/homescreen.dart';
 
@@ -20,7 +20,7 @@ class _DriverScreenState extends State<DriverScreen> {
   final List<Widget> _pages = [
     const Home(),
     const Booked(),
-    const Account(),
+    const DAccount(),
   ];
 
   @override

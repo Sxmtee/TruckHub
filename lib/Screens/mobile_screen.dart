@@ -2,7 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
-import 'package:trucks/Features/Account/screens/accountscreen.dart';
+import 'package:trucks/Features/Account/screens/user/accountscreen.dart';
 import 'package:trucks/Features/Booked/screens/bookedscreen.dart';
 import 'package:trucks/Features/Home/screens/homescreen.dart';
 
@@ -30,6 +30,7 @@ class _MobileScreenState extends State<MobileScreen> {
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: AnimatedBottomNavigationBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         activeIndex: _currentIndex,
         onTap: (value) {
           setState(() {
@@ -37,17 +38,17 @@ class _MobileScreenState extends State<MobileScreen> {
           });
         },
         activeColor: Colors.green,
-        inactiveColor: AppColors.blackColor,
+        inactiveColor: Theme.of(context).iconTheme.color,
         elevation: 20,
         shadow: Shadow(color: AppColors.blackColor),
         leftCornerRadius: 25,
         rightCornerRadius: 25,
-        splashColor: AppColors.primaryColor,
+        splashColor: AppColors.tertiaryColor,
         splashSpeedInMilliseconds: 500,
         gapLocation: GapLocation.none,
         icons: const [
-          Icons.home,
-          Icons.bookmark,
+          Icons.home_outlined,
+          Icons.notifications_outlined,
           Icons.person_outline,
         ],
       ),

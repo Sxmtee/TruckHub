@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:trucks/Common/Widgets/error_screen.dart';
 import 'package:trucks/Common/Widgets/page_router.dart';
-import 'package:trucks/Features/Account/screens/profile_screen.dart';
-import 'package:trucks/Features/Auth/screens/driver_auth.dart';
-import 'package:trucks/Features/Auth/screens/user_auth.dart';
+import 'package:trucks/Features/Account/screens/driver/d_profile.dart';
+import 'package:trucks/Features/Account/screens/user/profile_screen.dart';
+import 'package:trucks/Features/Auth/screens/driver/driver_auth.dart';
+import 'package:trucks/Features/Auth/screens/user/user_auth.dart';
 import 'package:trucks/Features/Auth/screens/onboarding_screen.dart';
 import 'package:trucks/Screens/driver_screen.dart';
 import 'package:trucks/Screens/mobile_screen.dart';
@@ -18,6 +19,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return pageRouter(child: const DriverAuth());
     case ProfileScreen.routeName:
       return pageRouter(child: const ProfileScreen());
+    case DProfileScreen.routeName:
+      return pageRouter(child: const DProfileScreen());
     case MobileScreen.routeName:
       return pageRouter(child: const MobileScreen());
     case DriverScreen.routeName:

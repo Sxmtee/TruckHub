@@ -7,11 +7,11 @@ import 'package:trucks/Common/Utils/spacing.dart';
 import 'package:trucks/Common/Utils/yes_or_no_dialog.dart';
 import 'package:trucks/Common/Widgets/icon_box.dart';
 import 'package:trucks/Common/Widgets/settings_card.dart';
-import 'package:trucks/Features/Account/screens/profile_screen.dart';
+import 'package:trucks/Features/Account/screens/driver/d_profile.dart';
 import 'package:trucks/Features/Auth/controllers/auth_controllers.dart';
 
-class Account extends ConsumerWidget {
-  const Account({super.key});
+class DAccount extends ConsumerWidget {
+  const DAccount({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,7 +20,7 @@ class Account extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Account"),
+        title: const Text("Driver's Account"),
         centerTitle: true,
       ),
       body: ListView(
@@ -39,7 +39,7 @@ class Account extends ConsumerWidget {
               children: [
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed(ProfileScreen.routeName);
+                    Navigator.of(context).pushNamed(DProfileScreen.routeName);
                   },
                   leading: IconBox(
                     color: Colors.grey,

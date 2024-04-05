@@ -15,7 +15,7 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SpinKitFoldingCube(
-        color: AppColors.primaryColor,
+        color: AppColors.tertiaryColor,
         size: radius,
       ),
     );

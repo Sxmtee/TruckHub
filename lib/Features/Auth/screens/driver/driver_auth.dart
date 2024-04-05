@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:trucks/Common/Theme/color2.dart';
-import 'package:trucks/Features/Auth/screens/user_login.dart';
-import 'package:trucks/Features/Auth/screens/user_sign_up.dart';
+import 'package:trucks/Features/Auth/screens/driver/driver_login.dart';
+import 'package:trucks/Features/Auth/screens/driver/driver_sign_up.dart';
 
-class UserAuth extends StatefulWidget {
-  static const routeName = "/User-auth";
-  const UserAuth({super.key});
+class DriverAuth extends StatefulWidget {
+  static const routeName = "/Driver-Auth";
+  const DriverAuth({super.key});
 
   @override
-  State<UserAuth> createState() => _UserAuthState();
+  State<DriverAuth> createState() => _DriverAuthState();
 }
 
-class _UserAuthState extends State<UserAuth> {
+class _DriverAuthState extends State<DriverAuth> {
   late PageController _pageController;
 
   @override
@@ -51,8 +51,8 @@ class _UserAuthState extends State<UserAuth> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          SignUp(next: goToNextPage),
-          LoginPage(back: goToPreviousPage),
+          DriverSignUp(next: goToNextPage),
+          DriverLogin(back: goToPreviousPage),
         ],
       ),
     );

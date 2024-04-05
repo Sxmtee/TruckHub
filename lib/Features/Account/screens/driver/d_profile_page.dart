@@ -9,24 +9,24 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Theme/color2.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
+import 'package:trucks/Common/Utils/string2.dart';
 import 'package:trucks/Common/Widgets/generic_icon_button.dart';
 import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:trucks/Common/Widgets/textarea.dart';
 import 'package:trucks/Features/Account/controller/account_controller.dart';
 import 'package:trucks/Features/Account/repo/common_firebase_storage_repo.dart';
-import 'package:trucks/Features/Auth/widgets/generic_circle.dart';
 import 'package:trucks/Features/Auth/widgets/generic_elevated.dart';
 import 'package:trucks/Models/usermodel.dart';
 
-class AccountPage extends ConsumerStatefulWidget {
+class DProfilePage extends ConsumerStatefulWidget {
   final UserModel userModel;
-  const AccountPage({super.key, required this.userModel});
+  const DProfilePage({super.key, required this.userModel});
 
   @override
-  ConsumerState<AccountPage> createState() => _AccountPageState();
+  ConsumerState<DProfilePage> createState() => _DProfilePageState();
 }
 
-class _AccountPageState extends ConsumerState<AccountPage> {
+class _DProfilePageState extends ConsumerState<DProfilePage> {
   final authKey = GlobalKey<FormState>();
   late TextEditingController nameCtrl;
   late TextEditingController emailCtrl;
@@ -69,6 +69,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: Theme.of(context).iconTheme,
           leading: IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(
@@ -77,7 +78,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               size: 35,
             ),
           ),
-          title: const Text("Account"),
+          title: const Text("Profile"),
         ),
         body: Form(
           key: authKey,
@@ -88,11 +89,25 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               Stack(
                 children: [
                   Center(
-                    child: GenericCircleAvatar(
-                      radius: 150,
-                      color: blackColor.withOpacity(0.2),
-                      child: const SizedBox.shrink(),
-                    ),
+                    child: widget.userModel.profilePic == ""
+                        ? image != null
+                            ? CircleAvatar(
+                                radius: 120,
+                                backgroundColor: blackColor.withOpacity(0.2),
+                                backgroundImage: FileImage(image!),
+                              )
+                            : CircleAvatar(
+                                radius: 120,
+                                backgroundColor: blackColor.withOpacity(0.2),
+                                backgroundImage: const NetworkImage(profilepic),
+                              )
+                        : CircleAvatar(
+                            radius: 120,
+                            backgroundColor: blackColor.withOpacity(0.2),
+                            backgroundImage: NetworkImage(
+                              widget.userModel.profilePic,
+                            ),
+                          ),
                   ),
                   Positioned(
                     bottom: 0,
@@ -113,7 +128,11 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               TextAreas(
                 controller: nameCtrl,
                 hintText: "Name",
-                border: const OutlineInputBorder(),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
                 validator: (val) {
                   if (val!.isEmpty) {
                     return "Please fill this field";
@@ -130,7 +149,11 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               TextAreas(
                 controller: emailCtrl,
                 hintText: "Email",
-                border: const OutlineInputBorder(),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
                 validator: (val) {
                   if (val!.isEmpty) {
                     return "Please fill this field";
@@ -147,7 +170,12 @@ class _AccountPageState extends ConsumerState<AccountPage> {
               TextAreas(
                 controller: phoneCtrl,
                 hintText: "Phone",
-                border: const OutlineInputBorder(),
+                keyboard: TextInputType.phone,
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
                 validator: (val) {
                   if (val!.isEmpty) {
                     return "Please fill this field";
@@ -172,12 +200,12 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                   photoUrl = await ref
                       .read(commonFirebaseStorageRepoProvider)
                       .storeFileToFirebase(
-                        "profilePic/${widget.userModel.uid}",
+                        "driverPic/${widget.userModel.uid}",
                         image!,
                       );
                 }
 
-                ref.read(accountController).updateUserDetails(
+                ref.read(accountController).updateDriverDetails(
                       context: context,
                       user: UserModel(
                         name: nameCtrl.text,

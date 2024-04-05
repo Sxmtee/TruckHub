@@ -6,7 +6,7 @@ class ThemeState {
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: AppColors.tertiaryColor,
-    scaffoldBackgroundColor: AppColors.primaryColor,
+    scaffoldBackgroundColor: Colors.white,
     iconTheme: IconThemeData(color: AppColors.blackColor, opacity: 0.8),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -30,7 +30,7 @@ class ThemeState {
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: AppColors.tertiaryColor,
-    scaffoldBackgroundColor: AppColors.primaryColor,
+    scaffoldBackgroundColor: AppColors.blackColor,
     iconTheme: const IconThemeData(color: Colors.white, opacity: 0.8),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
