@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trucks/Common/Theme/color2.dart';
 import 'package:trucks/Features/Auth/screens/driver/driver_login.dart';
 import 'package:trucks/Features/Auth/screens/driver/driver_sign_up.dart';
 
@@ -38,12 +37,11 @@ class _DriverAuthState extends State<DriverAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        iconTheme: Theme.of(context).iconTheme,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: blackColor,
           ),
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:trucks/Common/Theme/theme.dart';
 import 'package:trucks/Common/Theme/theme_provider.dart';
 import 'package:trucks/Common/Utils/router.dart';
 import 'package:trucks/Features/Auth/screens/splash_screen.dart';
+import 'package:trucks/Features/Home/repo/push_notif_repo.dart';
 import 'package:trucks/Models/user.preferences.dart';
 import 'package:trucks/firebase_options.dart';
 
@@ -15,6 +16,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // await MessageApi().initNotifications();
   SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,

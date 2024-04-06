@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
+import 'package:trucks/Features/Home/widgets/book_a_driver.dart';
 import 'package:trucks/Models/drivermodel.dart';
 
 class DriverDisplay extends StatelessWidget {
@@ -22,6 +23,13 @@ class DriverDisplay extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.of(context).pop();
+              bookADriver(
+                context: context,
+                name: driverList.name,
+                profilePic: driverList.profilePic,
+                phoneNumber: driverList.phoneNumber,
+                email: driverList.email,
+              );
             },
             leading: CircleAvatar(
               radius: 43,

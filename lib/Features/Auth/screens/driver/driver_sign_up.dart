@@ -65,7 +65,7 @@ class _DriverSignUpState extends ConsumerState<DriverSignUp> {
                   inputText: 'Welcome to TruckHub!',
                   fontSize: 24,
                   weight: FontWeight.w600,
-                  colorName: AppColors.blackColor,
+                  colorName: Theme.of(context).iconTheme.color!,
                 ),
                 SpacingManager.h7,
                 customTextPppinsSpacing(
@@ -73,7 +73,7 @@ class _DriverSignUpState extends ConsumerState<DriverSignUp> {
                   inputText: 'Create an account',
                   fontSize: 20,
                   weight: FontWeight.w500,
-                  colorName: AppColors.blackColor,
+                  colorName: Theme.of(context).iconTheme.color!,
                 ),
                 SpacingManager.h25,
                 TextAreas(
@@ -177,7 +177,7 @@ class _DriverSignUpState extends ConsumerState<DriverSignUp> {
                       inputText: 'Have an account?',
                       fontSize: 14,
                       weight: FontWeight.w500,
-                      colorName: AppColors.blackColor,
+                      colorName: Theme.of(context).iconTheme.color!,
                     ),
                     const SizedBox(
                       width: 5,

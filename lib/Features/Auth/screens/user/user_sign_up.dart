@@ -67,7 +67,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                   inputText: 'Welcome to TruckHub!',
                   fontSize: 24,
                   weight: FontWeight.w600,
-                  colorName: AppColors.blackColor,
+                  colorName: Theme.of(context).iconTheme.color!,
                 ),
                 SpacingManager.h7,
                 customTextPppinsSpacing(
@@ -75,7 +75,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                   inputText: 'Create an account',
                   fontSize: 20,
                   weight: FontWeight.w500,
-                  colorName: AppColors.blackColor,
+                  colorName: Theme.of(context).iconTheme.color!,
                 ),
                 SpacingManager.h25,
                 TextAreas(
@@ -179,7 +179,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                       inputText: 'Have an account?',
                       fontSize: 14,
                       weight: FontWeight.w500,
-                      colorName: AppColors.blackColor,
+                      colorName: Theme.of(context).iconTheme.color!,
                     ),
                     const SizedBox(
                       width: 5,

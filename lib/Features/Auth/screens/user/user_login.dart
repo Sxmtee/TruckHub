@@ -49,7 +49,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
@@ -65,7 +64,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   inputText: 'Welcome back!',
                   fontSize: 24,
                   weight: FontWeight.w600,
-                  colorName: AppColors.blackColor,
+                  colorName: Theme.of(context).iconTheme.color!,
                 ),
                 SpacingManager.h25,
                 TextAreas(
@@ -165,7 +164,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       inputText: 'Don\'t have an account?',
                       fontSize: 14,
                       weight: FontWeight.w500,
-                      colorName: AppColors.blackColor,
+                      colorName: Theme.of(context).iconTheme.color!,
                     ),
                     const SizedBox(
                       width: 5,
