@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Theme/color2.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
 import 'package:trucks/Common/Utils/loader.dart';
 import 'package:trucks/Common/Utils/yes_or_no_dialog.dart';
 import 'package:trucks/Features/Auth/widgets/generic_elevated.dart';
+import 'package:trucks/Features/Home/controller/driver_controller.dart';
+import 'package:trucks/Features/Home/repo/push_notif_repo.dart';
+import 'package:trucks/Models/user.preferences.dart';
 
 void bookADriver({
   required BuildContext context,
+  required WidgetRef ref,
   required String name,
+  required String uid,
   required String profilePic,
+  required String userToken,
   required String phoneNumber,
   required String email,
 }) {
   SizeConfig.init(context);
+  final username = TruckPreferences.getNickname();
+  final userphone = TruckPreferences.getPhone();
 
   showModalBottomSheet(
     context: context,
@@ -33,11 +43,16 @@ void bookADriver({
             SizedBox(
               height: SizeConfig.sHeight * 1.5,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Ford T-450, Black"),
-                Icon(Icons.phone),
+                const Text("Ford T-450, Black"),
+                IconButton(
+                  onPressed: () async {
+                    FlutterPhoneDirectCaller.callNumber(phoneNumber);
+                  },
+                  icon: const Icon(Icons.phone),
+                ),
               ],
             ),
             SizedBox(
@@ -77,7 +92,29 @@ void bookADriver({
                       context: context,
                       title: "Sure you want to book this driver",
                       onTap: () {
-                        waiting(context);
+                        MessageApi.sendNotificationToUser(
+                          userToken: userToken,
+                          title: "Waiting Passenger",
+                          body: "Open app to accept passenger",
+                        ).whenComplete(() {
+                          ref
+                              .read(driverController)
+                              .setDriverUser(
+                                userName: username!,
+                                userPhoneNumber: userphone!,
+                                driverName: name,
+                                driverPhone: phoneNumber,
+                                driverEmail: email,
+                                driverId: uid,
+                                driverPic: profilePic,
+                              )
+                              .whenComplete(() {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            waiting(context);
+                          });
+                        });
                       },
                     );
                   },
@@ -103,6 +140,7 @@ void waiting(BuildContext context) {
         height: SizeConfig.sHeight * 38,
         width: SizeConfig.screenWidth,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const Text(
               "Waiting for driver to respond",

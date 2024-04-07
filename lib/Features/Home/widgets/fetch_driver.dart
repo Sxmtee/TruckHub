@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Utils/loader.dart';
 import 'package:trucks/Common/Widgets/error_screen.dart';
-import 'package:trucks/Features/Home/repo/driver_repo.dart';
+import 'package:trucks/Features/Home/controller/driver_controller.dart';
 import 'package:trucks/Features/Home/widgets/driver_display.dart';
 
 class FetchDriver extends ConsumerWidget {
@@ -11,7 +11,7 @@ class FetchDriver extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
-      future: ref.watch(driverRepo).fetchDrivers(context),
+      future: ref.watch(driverController).fetchDrivers(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(

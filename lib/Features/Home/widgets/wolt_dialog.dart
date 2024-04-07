@@ -12,19 +12,6 @@ SliverWoltModalSheetPage page1(BuildContext context, ValueNotifier notifier) {
             icon: const Icon(Icons.arrow_back),
             onPressed: Navigator.of(context).pop,
           ),
-    // stickyActionBar: Padding(
-    //   padding: const EdgeInsets.all(10),
-    //   child: ElevatedButton(
-    //     onPressed: () => notifier.value = notifier.value + 1,
-    //     child: const SizedBox(
-    //       height: 50,
-    //       width: double.infinity,
-    //       child: Center(
-    //         child: Text('Next'),
-    //       ),
-    //     ),
-    //   ),
-    // ),
     topBarTitle: const Text('List of available drivers'),
     isTopBarLayerAlwaysVisible: true,
     trailingNavBarWidget: IconButton(

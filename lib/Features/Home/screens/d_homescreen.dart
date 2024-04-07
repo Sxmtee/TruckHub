@@ -8,20 +8,18 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-import 'package:trucks/Features/Home/widgets/wolt_dialog.dart';
-import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class DHome extends StatefulWidget {
+  const DHome({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<DHome> createState() => _DHomeState();
 }
 
 const kGoogleApiKey = "AIzaSyBaQJXtGKoxO_bK8iAD0lAQAX78lMgcqCM";
 final homekey = GlobalKey<ScaffoldState>();
 
-class _HomeState extends State<Home> {
+class _DHomeState extends State<DHome> {
   final pageIndexNotifier = ValueNotifier(0);
   final locationCtrl = location.Location();
   LatLng? destination;
@@ -143,17 +141,17 @@ class _HomeState extends State<Home> {
                       position: destination == null
                           ? const LatLng(37.3861, -122.0839)
                           : destination!,
-                      onTap: () {
-                        WoltModalSheet.show(
-                          pageIndexNotifier: pageIndexNotifier,
-                          context: context,
-                          pageListBuilder: (modal) {
-                            return [
-                              page1(context, pageIndexNotifier),
-                            ];
-                          },
-                        );
-                      },
+                      // onTap: () {
+                      //   WoltModalSheet.show(
+                      //     pageIndexNotifier: pageIndexNotifier,
+                      //     context: context,
+                      //     pageListBuilder: (modal) {
+                      //       return [
+                      //         page1(context, pageIndexNotifier),
+                      //       ];
+                      //     },
+                      //   );
+                      // },
                     ),
                   },
                   onMapCreated: (controller) {
@@ -165,7 +163,7 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: handleSearch,
-                      child: const Text("Search Places & Book a Driver"),
+                      child: const Text("Search Places"),
                     ),
                   ),
                 ),

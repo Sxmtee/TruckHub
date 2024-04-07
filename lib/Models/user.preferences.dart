@@ -12,8 +12,8 @@ class TruckPreferences {
     await _preferences.setString("nickName", nickname);
   }
 
-  static Future setEmail(String email) async {
-    await _preferences.setString("email", email);
+  static Future setPhone(String phone) async {
+    await _preferences.setString("phone", phone);
   }
 
   static Future setId(int id) async {
@@ -23,7 +23,7 @@ class TruckPreferences {
   //! Getting the preferences
   static String? getNickname() => _preferences.getString('nickName') ?? '';
 
-  static String? getEmail() => _preferences.getString('email') ?? '';
+  static String? getPhone() => _preferences.getString('phone') ?? '';
 
   static int? getId() => _preferences.getInt("id");
 

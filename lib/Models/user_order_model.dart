@@ -1,20 +1,16 @@
-class UserModel {
+class UsersOrderModel {
   final String name;
   final String phoneNumber;
   final String profilePic;
-  final String userToken;
   final String uid;
   final String email;
-  final String password;
 
-  UserModel({
+  UsersOrderModel({
     required this.name,
     required this.phoneNumber,
     required this.profilePic,
-    required this.userToken,
     required this.uid,
     required this.email,
-    required this.password,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,22 +18,18 @@ class UserModel {
       "name": name,
       "phoneNumber": phoneNumber,
       "profilePic": profilePic,
-      "userToken": userToken,
       "user_id": uid,
       "email": email,
-      "password": password,
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory UsersOrderModel.fromMap(Map<String, dynamic> map) {
+    return UsersOrderModel(
       name: map["name"],
       phoneNumber: map["phoneNumber"],
       profilePic: map["profilePic"],
-      userToken: map["userToken"],
       uid: map["user_id"],
       email: map["email"],
-      password: map["password"],
     );
   }
 }

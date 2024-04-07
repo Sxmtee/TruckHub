@@ -32,12 +32,14 @@ class AuthController {
     required BuildContext context,
     required String name,
     required String email,
+    required String phone,
     required String password,
   }) {
     authRepo.signDriverUp(
       context: context,
       name: name,
       email: email,
+      phone: phone,
       password: password,
     );
   }
@@ -58,12 +60,14 @@ class AuthController {
     required BuildContext context,
     required String name,
     required String email,
+    required String phone,
     required String password,
   }) {
     authRepo.signUserUp(
       context: context,
       name: name,
       email: email,
+      phone: phone,
       password: password,
     );
   }

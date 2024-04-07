@@ -211,6 +211,7 @@ class _DProfilePageState extends ConsumerState<DProfilePage> {
                         name: nameCtrl.text,
                         phoneNumber: phoneCtrl.text,
                         profilePic: photoUrl,
+                        userToken: widget.userModel.userToken,
                         uid: widget.userModel.uid,
                         email: emailCtrl.text,
                         password: widget.userModel.password,

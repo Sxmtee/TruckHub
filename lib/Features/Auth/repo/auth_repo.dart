@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:trucks/Features/Auth/screens/onboarding_screen.dart';
+import 'package:trucks/Features/Home/repo/push_notif_repo.dart';
+import 'package:trucks/Models/user.preferences.dart';
 import 'package:trucks/Models/usermodel.dart';
 import 'package:trucks/Screens/driver_screen.dart';
 import 'package:trucks/Screens/mobile_screen.dart';
@@ -50,6 +52,7 @@ class AuthRepo {
     required BuildContext context,
     required String name,
     required String email,
+    required String phone,
     required String password,
   }) async {
     try {
@@ -59,10 +62,13 @@ class AuthRepo {
       );
       final id = userCredential.user!.uid;
 
+      final userToken = await MessageApi.getToken();
+
       final userDetails = UserModel(
         name: name,
-        phoneNumber: "",
+        phoneNumber: phone,
         profilePic: "",
+        userToken: userToken!,
         uid: id,
         email: email,
         password: password,
@@ -91,7 +97,10 @@ class AuthRepo {
         password: password,
       );
       final id = userCredential.user!.uid;
-      await firestore.collection("users").doc(id).get();
+      final users = await firestore.collection("users").doc(id).get();
+
+      TruckPreferences.setName(users["name"]);
+      TruckPreferences.setPhone(users["phoneNumber"]);
 
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -107,6 +116,7 @@ class AuthRepo {
     required BuildContext context,
     required String name,
     required String email,
+    required String phone,
     required String password,
   }) async {
     try {
@@ -116,16 +126,22 @@ class AuthRepo {
       );
       final id = userCredential.user!.uid;
 
+      final userToken = await MessageApi.getToken();
+
       final userDetails = UserModel(
         name: name,
-        phoneNumber: "",
+        phoneNumber: phone,
         profilePic: "",
+        userToken: userToken!,
         uid: id,
         email: email,
         password: password,
       );
 
       await firestore.collection("users").doc(id).set(userDetails.toMap());
+
+      TruckPreferences.setName(name);
+      TruckPreferences.setPhone(phone);
 
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -139,6 +155,7 @@ class AuthRepo {
 
   void signOut(BuildContext context) async {
     Navigator.pop(context);
+    await TruckPreferences.clear();
     await auth.signOut();
     Navigator.pushNamedAndRemoveUntil(
       context,

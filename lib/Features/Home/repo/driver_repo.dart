@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:trucks/Models/drivermodel.dart';
+import 'package:trucks/Models/user_order_model.dart';
 import 'package:trucks/Models/usermodel.dart';
 
 final driverRepo = Provider((ref) {
@@ -34,6 +35,7 @@ class DriverRepo {
           DriverModel(
             name: user.name,
             phoneNumber: user.phoneNumber,
+            userToken: user.userToken,
             profilePic: user.profilePic,
             uid: user.uid,
             email: user.email,
@@ -44,5 +46,40 @@ class DriverRepo {
       showSnackBar(context, "No available driver");
     }
     return drivers;
+  }
+
+  Future<void> setDriverUser({
+    required String userName,
+    required String userPhoneNumber,
+    required String driverName,
+    required String driverPhone,
+    required String driverEmail,
+    required String driverId,
+    required String driverPic,
+  }) async {
+    final driverOrder = UsersOrderModel(
+      name: driverName,
+      phoneNumber: driverPhone,
+      profilePic: driverPic,
+      uid: driverId,
+      email: driverEmail,
+    );
+
+    await firestore
+        .collection("users")
+        .doc(auth.currentUser?.uid)
+        .collection("orders")
+        .doc(driverOrder.uid)
+        .set(driverOrder.toMap());
+
+    await firestore
+        .collection("drivers")
+        .doc(driverOrder.uid)
+        .collection("orders")
+        .doc(auth.currentUser?.uid)
+        .set({
+      "user_name": userName,
+      "phone_number": userPhoneNumber,
+    });
   }
 }

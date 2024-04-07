@@ -22,6 +22,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
   bool showPassword = false;
@@ -37,6 +38,7 @@ class _SignUpState extends ConsumerState<SignUp> {
           context: context,
           name: nameController.text.trim(),
           email: emailController.text.trim(),
+          phone: phoneController.text.trim(),
           password: passwordController.text.trim(),
         );
   }
@@ -45,6 +47,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    phoneController.dispose();
     nameController.dispose();
     super.dispose();
   }
@@ -91,6 +94,26 @@ class _SignUpState extends ConsumerState<SignUp> {
                   validator: (val) {
                     if (val!.isEmpty) {
                       return "Please enter your name";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextAreas(
+                  controller: phoneController,
+                  hintText: 'Phone Number',
+                  obscure: false,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.phone,
+                  validator: (val) {
+                    if (val!.length != 11) {
+                      return "Please enter a valid phone number";
                     }
                     return null;
                   },
