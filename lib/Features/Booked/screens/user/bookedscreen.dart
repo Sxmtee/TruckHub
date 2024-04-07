@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Utils/loader.dart';
 import 'package:trucks/Common/Widgets/error_screen.dart';
 import 'package:trucks/Features/Booked/controller/booked_controller.dart';
-import 'package:trucks/Features/Booked/screens/user_notif_screen.dart';
+import 'package:trucks/Features/Booked/screens/user/user_notif_screen.dart';
 
 class Booked extends ConsumerWidget {
   const Booked({super.key});

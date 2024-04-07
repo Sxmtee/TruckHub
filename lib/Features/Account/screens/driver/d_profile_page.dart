@@ -62,6 +62,14 @@ class _DProfilePageState extends ConsumerState<DProfilePage> {
   }
 
   @override
+  void dispose() {
+    nameCtrl.dispose();
+    emailCtrl.dispose();
+    phoneCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
@@ -215,6 +223,7 @@ class _DProfilePageState extends ConsumerState<DProfilePage> {
                         uid: widget.userModel.uid,
                         email: emailCtrl.text,
                         password: widget.userModel.password,
+                        isAccepted: false,
                       ),
                     );
               }

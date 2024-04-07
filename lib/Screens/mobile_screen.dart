@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
 import 'package:trucks/Features/Account/screens/user/accountscreen.dart';
-import 'package:trucks/Features/Booked/screens/bookedscreen.dart';
+import 'package:trucks/Features/Booked/screens/user/bookedscreen.dart';
 import 'package:trucks/Features/Home/screens/homescreen.dart';
 
 class MobileScreen extends StatefulWidget {

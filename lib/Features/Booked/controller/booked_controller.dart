@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Features/Booked/repo/booked_repo.dart';
+import 'package:trucks/Models/drivermodel.dart';
 import 'package:trucks/Models/user_order_model.dart';
 
 final bookedController = Provider((ref) {
@@ -14,5 +15,17 @@ class BookedController {
 
   Future<List<UsersOrderModel>> fetchBookedDriver() {
     return bookedRepo.fetchBookedDriver();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchBookedUser() {
+    return bookedRepo.fetchBookedUser();
+  }
+
+  Stream<DriverModel> userData(String userId) {
+    return bookedRepo.userData(userId);
+  }
+
+  void setUserState(bool isAccepted) {
+    bookedRepo.setUserState(isAccepted);
   }
 }

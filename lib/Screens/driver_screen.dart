@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
 import 'package:trucks/Features/Account/screens/driver/d_account.dart';
-import 'package:trucks/Features/Booked/screens/d_bookedscreen.dart';
+import 'package:trucks/Features/Booked/screens/driver/d_bookedscreen.dart';
 import 'package:trucks/Features/Home/screens/d_homescreen.dart';
 
 class DriverScreen extends StatefulWidget {

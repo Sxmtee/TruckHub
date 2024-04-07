@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Theme/color2.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
 import 'package:trucks/Common/Utils/loader.dart';
-import 'package:trucks/Common/Utils/yes_or_no_dialog.dart';
 import 'package:trucks/Features/Auth/widgets/generic_elevated.dart';
+import 'package:trucks/Features/Booked/controller/booked_controller.dart';
 import 'package:trucks/Features/Home/controller/driver_controller.dart';
 import 'package:trucks/Features/Home/repo/push_notif_repo.dart';
 import 'package:trucks/Models/user.preferences.dart';
@@ -88,35 +88,33 @@ void bookADriver({
                   minWidth: 100,
                   textColor: whiteColor,
                   onPressed: () {
-                    showYesOrNoAlertDialog(
-                      context: context,
-                      title: "Sure you want to book this driver",
-                      onTap: () {
-                        MessageApi.sendNotificationToUser(
-                          userToken: userToken,
-                          title: "Waiting Passenger",
-                          body: "Open app to accept passenger",
-                        ).whenComplete(() {
-                          ref
-                              .read(driverController)
-                              .setDriverUser(
-                                userName: username!,
-                                userPhoneNumber: userphone!,
-                                driverName: name,
-                                driverPhone: phoneNumber,
-                                driverEmail: email,
-                                driverId: uid,
-                                driverPic: profilePic,
-                              )
-                              .whenComplete(() {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            waiting(context);
-                          });
-                        });
-                      },
-                    );
+                    MessageApi.sendNotificationToUser(
+                      userToken: userToken,
+                      title: "Waiting Passenger",
+                      body: "Open app to accept passenger",
+                    ).whenComplete(() {
+                      ref
+                          .read(driverController)
+                          .setDriverUser(
+                            userName: username!,
+                            userPhoneNumber: userphone!,
+                            driverName: name,
+                            driverPhone: phoneNumber,
+                            driverEmail: email,
+                            driverId: uid,
+                            driverPic: profilePic,
+                          )
+                          .whenComplete(() {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        waiting(
+                          context: context,
+                          ref: ref,
+                          uid: uid,
+                        );
+                      });
+                    });
                   },
                   child: const Text("Book"),
                 ),
@@ -129,7 +127,11 @@ void bookADriver({
   );
 }
 
-void waiting(BuildContext context) {
+void waiting({
+  required BuildContext context,
+  required WidgetRef ref,
+  required String uid,
+}) {
   SizeConfig.init(context);
 
   showModalBottomSheet(
@@ -152,7 +154,19 @@ void waiting(BuildContext context) {
             SizedBox(
               height: SizeConfig.sHeight * 1.5,
             ),
-            const Loader(),
+            StreamBuilder(
+              stream: ref.watch(bookedController).userData(uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Loader();
+                }
+
+                if (snapshot.data!.isAccepted) {
+                  Navigator.of(context).pop();
+                }
+                return const Loader();
+              },
+            ),
             SizedBox(
               height: SizeConfig.sHeight * 1.5,
             ),

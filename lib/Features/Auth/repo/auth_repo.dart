@@ -72,6 +72,7 @@ class AuthRepo {
         uid: id,
         email: email,
         password: password,
+        isAccepted: false,
       );
 
       await firestore.collection("drivers").doc(id).set(userDetails.toMap());
@@ -136,6 +137,7 @@ class AuthRepo {
         uid: id,
         email: email,
         password: password,
+        isAccepted: false,
       );
 
       await firestore.collection("users").doc(id).set(userDetails.toMap());
