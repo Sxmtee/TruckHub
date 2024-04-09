@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Models/drivermodel.dart';
 import 'package:trucks/Models/user_order_model.dart';
@@ -18,46 +19,60 @@ class BookedRepo {
   BookedRepo({required this.firestore, required this.auth});
 
   Future<List<UsersOrderModel>> fetchBookedDriver() async {
-    List<UsersOrderModel> bookedDrivers = [];
+    try {
+      List<UsersOrderModel> bookedDrivers = [];
 
-    final snapshots = await firestore
-        .collection("users")
-        .doc(auth.currentUser?.uid)
-        .collection("orders")
-        .get();
+      final snapshots = await firestore
+          .collection("users")
+          .doc(auth.currentUser?.uid)
+          .collection("orders")
+          .get();
 
-    for (var doc in snapshots.docs) {
-      final orderData = doc.data();
+      for (var doc in snapshots.docs) {
+        final orderData = doc.data();
 
-      UsersOrderModel driver = UsersOrderModel.fromMap(orderData);
+        UsersOrderModel driver = UsersOrderModel.fromMap(orderData);
 
-      bookedDrivers.add(driver);
+        bookedDrivers.add(driver);
+      }
+
+      return bookedDrivers;
+    } catch (e) {
+      if (kDebugMode) {
+        print("ERROR: ${e.toString()}");
+      }
+      return [];
     }
-
-    return bookedDrivers;
   }
 
   Future<List<Map<String, dynamic>>> fetchBookedUser() async {
-    List<Map<String, dynamic>> bookedUser = [];
+    try {
+      List<Map<String, dynamic>> bookedUser = [];
 
-    final snapshots = await firestore
-        .collection("drivers")
-        .doc(auth.currentUser?.uid)
-        .collection("orders")
-        .get();
+      final snapshots = await firestore
+          .collection("drivers")
+          .doc(auth.currentUser?.uid)
+          .collection("orders")
+          .get();
 
-    for (var doc in snapshots.docs) {
-      final orderData = doc.data();
+      for (var doc in snapshots.docs) {
+        final orderData = doc.data();
 
-      final driver = {
-        "user_name": orderData["user_name"],
-        "phone_number": orderData["phone_number"],
-      };
+        final driver = {
+          "user_name": orderData["user_name"],
+          "phone_number": orderData["phone_number"],
+        };
 
-      bookedUser.add(driver);
+        bookedUser.add(driver);
+      }
+
+      return bookedUser;
+    } catch (e) {
+      if (kDebugMode) {
+        print("ERROR: ${e.toString()}");
+      }
+      return [];
     }
-
-    return bookedUser;
   }
 
   Stream<DriverModel> userData(String userId) {

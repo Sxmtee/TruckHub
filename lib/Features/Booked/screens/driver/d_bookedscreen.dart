@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Utils/loader.dart';
 import 'package:trucks/Common/Widgets/error_screen.dart';
+import 'package:trucks/Common/Widgets/placeholderimage.dart';
 import 'package:trucks/Features/Booked/controller/booked_controller.dart';
 import 'package:trucks/Features/Booked/screens/driver/driver_notif_screen.dart';
 
@@ -19,8 +20,9 @@ class DBookedScreen extends ConsumerWidget {
           );
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text("No Data or Internet Connection"),
+          return const PlaceHolderImage(
+            image: "assets/png/not.png",
+            text: "No Order Yet",
           );
         }
         if (snapshot.hasError) {

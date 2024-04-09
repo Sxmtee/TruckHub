@@ -26,13 +26,6 @@ class UserNotifScreen extends StatelessWidget {
 
         return Column(
           children: [
-            const GenericText(
-              noCenterAlign: true,
-              color: blackColor,
-              fontSize: fontSize2half,
-              fontWeight: fontWeight4,
-              text: todayString,
-            ),
             const Gap(5),
             GenericCardWidgetWithLeadingWidget(
               onTap: () {},
@@ -79,7 +72,7 @@ class UserNotifScreen extends StatelessWidget {
                       noCenterAlign: true,
                       fontSize: fontSize2half,
                       fontWeight: fontWeight3,
-                      text: users.name,
+                      text: "${users.name} has responded",
                     ),
                   ),
                   Padding(
@@ -96,7 +89,7 @@ class UserNotifScreen extends StatelessWidget {
                               showYesOrNoAlertDialog(
                                 context: context,
                                 title: cancelYourRideString,
-                                onTap: () {},
+                                onTap: () => Navigator.of(context).pop(),
                               );
                             },
                             title: cancelString,
@@ -117,18 +110,6 @@ class UserNotifScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            GenericCardWidgetWithLeadingWidget(
-              onTap: () {},
-              title: discountString,
-              subtitle: thankYouForBooking,
-              leadingWidgt: const GenericCircleAvatar(
-                radius: 40,
-                child: FaIcon(
-                  Icons.check,
-                  color: whiteColor,
-                ),
               ),
             ),
           ],

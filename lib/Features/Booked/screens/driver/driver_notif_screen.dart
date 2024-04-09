@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:trucks/Common/Theme/color2.dart';
@@ -10,13 +11,14 @@ import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:trucks/Features/Auth/widgets/generic_circle.dart';
 import 'package:trucks/Features/Auth/widgets/generic_elevated.dart';
 import 'package:trucks/Features/Auth/widgets/generic_text.dart';
+import 'package:trucks/Features/Booked/controller/booked_controller.dart';
 
-class DriverNotifScreen extends StatelessWidget {
+class DriverNotifScreen extends ConsumerWidget {
   final List<Map<String, dynamic>> passenger;
   const DriverNotifScreen({super.key, required this.passenger});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: ListView.builder(
         itemCount: passenger.length,
@@ -50,13 +52,14 @@ class DriverNotifScreen extends StatelessWidget {
                     noCenterAlign: true,
                     fontSize: fontSize3half,
                     fontWeight: fontWeight7,
-                    text: riderString,
+                    text: "Pick up passenger",
                   ),
                   subtitle: GenericText(
                     noCenterAlign: true,
                     fontSize: fontSize2half,
                     fontWeight: fontWeight3,
-                    text: request["user_name"],
+                    text:
+                        "${request["user_name"]} is waiting\n5 meters away from you",
                   ),
                 ),
                 Padding(
@@ -73,7 +76,9 @@ class DriverNotifScreen extends StatelessWidget {
                             showYesOrNoAlertDialog(
                               context: context,
                               title: cancelYourRideString,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
                             );
                           },
                           title: cancelString,
@@ -85,7 +90,8 @@ class DriverNotifScreen extends StatelessWidget {
                         child: GenericElevatedButton(
                           noMargin: true,
                           onPressed: () {
-                            showSnackBar(context, continuedString);
+                            ref.read(bookedController).setUserState(true);
+                            showSnackBar(context, "Accepted");
                           },
                           title: continueString,
                         ),

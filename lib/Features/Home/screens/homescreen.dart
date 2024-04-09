@@ -50,12 +50,14 @@ class _HomeState extends State<Home> {
       (currentLocation) {
         if (currentLocation.latitude != null &&
             currentLocation.longitude != null) {
-          setState(() {
-            currentPosition = LatLng(
-              currentLocation.latitude!,
-              currentLocation.longitude!,
-            );
-          });
+          if (mounted) {
+            setState(() {
+              currentPosition = LatLng(
+                currentLocation.latitude!,
+                currentLocation.longitude!,
+              );
+            });
+          }
         }
       },
     );
@@ -116,6 +118,12 @@ class _HomeState extends State<Home> {
       (_) async => await fetchLocationUpdates(),
     );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    googleMapController.dispose();
+    super.dispose();
   }
 
   @override

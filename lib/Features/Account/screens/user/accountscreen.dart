@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Theme/color.dart';
 import 'package:trucks/Common/Theme/theme_provider.dart';
+import 'package:trucks/Common/Utils/app_dialogs.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
 import 'package:trucks/Common/Utils/spacing.dart';
+import 'package:trucks/Common/Utils/string2.dart';
 import 'package:trucks/Common/Utils/yes_or_no_dialog.dart';
 import 'package:trucks/Common/Widgets/icon_box.dart';
 import 'package:trucks/Common/Widgets/settings_card.dart';
@@ -123,7 +125,21 @@ class Account extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AppDialogs(
+                          titleText: "Privacy Policy",
+                          contentText: termsAndPolicyString,
+                          commandText: "Ok",
+                          commandPress: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      },
+                    );
+                  },
                   leading: IconBox(
                     color: Colors.purple,
                     height: SizeConfig.sHeight * 5,

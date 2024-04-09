@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Theme/color2.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
 import 'package:trucks/Common/Utils/loader.dart';
+import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:trucks/Features/Auth/widgets/generic_elevated.dart';
 import 'package:trucks/Features/Booked/controller/booked_controller.dart';
 import 'package:trucks/Features/Home/controller/driver_controller.dart';
 import 'package:trucks/Features/Home/repo/push_notif_repo.dart';
+import 'package:trucks/Features/Home/widgets/driver_profile.dart';
 import 'package:trucks/Models/user.preferences.dart';
 
 void bookADriver({
@@ -78,7 +80,14 @@ void bookADriver({
                   minWidth: 100,
                   color: whiteColor,
                   textColor: blackColor,
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    DriverProfile.routeName,
+                    arguments: {
+                      "profilePic": profilePic,
+                      "name": name,
+                      "phoneNumber": phoneNumber,
+                    },
+                  ),
                   child: const Text("View Profile"),
                 ),
                 MaterialButton(
@@ -105,9 +114,6 @@ void bookADriver({
                             driverPic: profilePic,
                           )
                           .whenComplete(() {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
                         waiting(
                           context: context,
                           ref: ref,
@@ -163,6 +169,12 @@ void waiting({
 
                 if (snapshot.data!.isAccepted) {
                   Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  showSnackBar(
+                    context,
+                    "Driver Accepted\n5 meters away from you\nGo to notifications if you want to cancel",
+                  );
                 }
                 return const Loader();
               },
@@ -173,7 +185,9 @@ void waiting({
             GenericElevatedButton(
               backgroundColor: whiteColor,
               color: blackColor,
-              onPressed: () {},
+              onPressed: () {
+                showSnackBar(context, "Ride canceled\nBook another ride");
+              },
               title: "Cancel",
             ),
           ],
