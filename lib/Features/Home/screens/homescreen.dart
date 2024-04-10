@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'package:trucks/Common/Utils/loader.dart';
@@ -26,6 +28,7 @@ class _HomeState extends State<Home> {
   final locationCtrl = location.Location();
   LatLng? destination;
   LatLng? currentPosition;
+  Map<PolylineId, Polyline> polylines = {};
 
   Future<void> fetchLocationUpdates() async {
     bool serviceEnabled;
@@ -50,14 +53,12 @@ class _HomeState extends State<Home> {
       (currentLocation) {
         if (currentLocation.latitude != null &&
             currentLocation.longitude != null) {
-          if (mounted) {
-            setState(() {
-              currentPosition = LatLng(
-                currentLocation.latitude!,
-                currentLocation.longitude!,
-              );
-            });
-          }
+          setState(() {
+            currentPosition = LatLng(
+              currentLocation.latitude!,
+              currentLocation.longitude!,
+            );
+          });
         }
       },
     );
@@ -109,7 +110,48 @@ class _HomeState extends State<Home> {
       components: [Component(Component.country, "Ng")],
     );
 
-    displayPrediction(p!, homekey.currentState!);
+    if (p != null) {
+      await displayPrediction(p, homekey.currentState!);
+      await fetchAndDrawPolyline();
+    }
+  }
+
+  Future<List<LatLng>> fetchPolylinePoints() async {
+    final polylinePoints = PolylinePoints();
+    final result = await polylinePoints.getRouteBetweenCoordinates(
+      kGoogleApiKey,
+      PointLatLng(currentPosition!.latitude, currentPosition!.longitude),
+      PointLatLng(destination!.latitude, destination!.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      return result.points.map((e) => LatLng(e.latitude, e.longitude)).toList();
+    } else {
+      if (kDebugMode) {
+        print("ERROR: ${result.errorMessage}");
+      }
+      return [];
+    }
+  }
+
+  Future<void> generatePolylineFromPoints(List<LatLng> poly) async {
+    const id = PolylineId("zipper");
+
+    final polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      points: poly,
+      width: 5,
+    );
+
+    setState(() {
+      polylines[id] = polyline;
+    });
+  }
+
+  Future<void> fetchAndDrawPolyline() async {
+    final coordinates = await fetchPolylinePoints();
+    generatePolylineFromPoints(coordinates);
   }
 
   @override
@@ -167,6 +209,9 @@ class _HomeState extends State<Home> {
                   onMapCreated: (controller) {
                     googleMapController = controller;
                   },
+                  polylines: destination == null
+                      ? {}
+                      : Set<Polyline>.of(polylines.values),
                 ),
                 SafeArea(
                   child: Padding(

@@ -11,6 +11,7 @@ import 'package:trucks/Common/Utils/string2.dart';
 import 'package:trucks/Features/Auth/screens/onboarding_screen.dart';
 import 'package:trucks/Features/Auth/widgets/generic_circle.dart';
 import 'package:trucks/Features/Auth/widgets/generic_region.dart';
+import 'package:trucks/Screens/driver_screen.dart';
 import 'package:trucks/Screens/mobile_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -36,9 +37,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             .doc(FirebaseAuth.instance.currentUser?.uid)
             .get();
 
-        if (userData.data() != null || driverData.data() != null) {
+        if (userData.data() != null) {
           Navigator.of(context).pushNamedAndRemoveUntil(
             MobileScreen.routeName,
+            (route) => false,
+          );
+        } else if (driverData.data() != null) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            DriverScreen.routeName,
             (route) => false,
           );
         } else {
