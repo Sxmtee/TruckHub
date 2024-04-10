@@ -45,3 +45,5 @@ app.*.map.json
 
 *.env
 *.json
+/assets/access.json
+/android/app/google-services.json
