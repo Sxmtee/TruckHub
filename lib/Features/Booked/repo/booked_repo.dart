@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trucks/Models/drivermodel.dart';
 import 'package:trucks/Models/user_order_model.dart';
 
 final bookedRepo = Provider((ref) {
@@ -59,6 +58,7 @@ class BookedRepo {
         final orderData = doc.data();
 
         final driver = {
+          "uid": orderData["uid"],
           "user_name": orderData["user_name"],
           "phone_number": orderData["phone_number"],
         };
@@ -75,15 +75,26 @@ class BookedRepo {
     }
   }
 
-  Stream<DriverModel> userData(String userId) {
-    return firestore.collection("drivers").doc(userId).snapshots().map(
-          (event) => DriverModel.fromMap(event.data()!),
+  Stream<UsersOrderModel> userData(String userId) {
+    return firestore
+        .collection("users")
+        .doc(auth.currentUser?.uid)
+        .collection("orders")
+        .doc(userId)
+        .snapshots()
+        .map(
+          (event) => UsersOrderModel.fromMap(event.data()!),
         );
   }
 
-  void setUserState(bool isAccepted) async {
-    await firestore.collection("drivers").doc(auth.currentUser!.uid).update({
-      "isAccepted": isAccepted,
+  void setUserState(String uid) async {
+    await firestore
+        .collection("users")
+        .doc(uid)
+        .collection("orders")
+        .doc(auth.currentUser?.uid)
+        .update({
+      "isAccepted": true,
     });
   }
 }

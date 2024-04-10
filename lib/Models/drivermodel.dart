@@ -5,7 +5,6 @@ class DriverModel {
   final String userToken;
   final String uid;
   final String email;
-  final bool isAccepted;
 
   DriverModel({
     required this.name,
@@ -14,7 +13,6 @@ class DriverModel {
     required this.profilePic,
     required this.uid,
     required this.email,
-    required this.isAccepted,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,7 +23,6 @@ class DriverModel {
       "userToken": userToken,
       "user_id": uid,
       "email": email,
-      "isAccepted": isAccepted,
     };
   }
 
@@ -37,7 +34,6 @@ class DriverModel {
       profilePic: map["profilePic"],
       uid: map["user_id"],
       email: map["email"],
-      isAccepted: map["isAccepted"],
     );
   }
 }

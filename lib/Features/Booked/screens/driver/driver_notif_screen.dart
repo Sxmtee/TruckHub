@@ -90,7 +90,9 @@ class DriverNotifScreen extends ConsumerWidget {
                         child: GenericElevatedButton(
                           noMargin: true,
                           onPressed: () {
-                            ref.read(bookedController).setUserState(true);
+                            ref
+                                .read(bookedController)
+                                .setUserState(request["uid"]);
                             showSnackBar(context, "Accepted");
                           },
                           title: continueString,

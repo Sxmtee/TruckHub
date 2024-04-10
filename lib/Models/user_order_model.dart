@@ -4,6 +4,7 @@ class UsersOrderModel {
   final String profilePic;
   final String uid;
   final String email;
+  final bool isAccepted;
 
   UsersOrderModel({
     required this.name,
@@ -11,6 +12,7 @@ class UsersOrderModel {
     required this.profilePic,
     required this.uid,
     required this.email,
+    required this.isAccepted,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class UsersOrderModel {
       "profilePic": profilePic,
       "user_id": uid,
       "email": email,
+      "isAccepted": isAccepted,
     };
   }
 
@@ -30,6 +33,7 @@ class UsersOrderModel {
       profilePic: map["profilePic"],
       uid: map["user_id"],
       email: map["email"],
+      isAccepted: map["isAccepted"],
     );
   }
 }

@@ -223,7 +223,6 @@ class _DProfilePageState extends ConsumerState<DProfilePage> {
                         uid: widget.userModel.uid,
                         email: emailCtrl.text,
                         password: widget.userModel.password,
-                        isAccepted: false,
                       ),
                     );
               }

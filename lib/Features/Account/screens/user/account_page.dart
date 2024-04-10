@@ -223,7 +223,6 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                         uid: widget.userModel.uid,
                         email: emailCtrl.text,
                         password: widget.userModel.password,
-                        isAccepted: false,
                       ),
                     );
               }

@@ -39,7 +39,6 @@ class DriverRepo {
             profilePic: user.profilePic,
             uid: user.uid,
             email: user.email,
-            isAccepted: false,
           ),
         );
       }
@@ -64,6 +63,7 @@ class DriverRepo {
       profilePic: driverPic,
       uid: driverId,
       email: driverEmail,
+      isAccepted: false,
     );
 
     await firestore
@@ -80,6 +80,7 @@ class DriverRepo {
         .doc(auth.currentUser?.uid)
         .set({
       "user_name": userName,
+      "uid": auth.currentUser?.uid,
       "phone_number": userPhoneNumber,
     });
   }
