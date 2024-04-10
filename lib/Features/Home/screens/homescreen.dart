@@ -8,6 +8,7 @@ import 'package:location/location.dart' as location;
 import 'package:trucks/Common/Utils/loader.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:trucks/Common/Utils/string2.dart';
 import 'package:trucks/Common/Widgets/snackbar.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:trucks/Features/Home/widgets/wolt_dialog.dart';
@@ -20,7 +21,6 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-const kGoogleApiKey = "AIzaSyBaQJXtGKoxO_bK8iAD0lAQAX78lMgcqCM";
 final homekey = GlobalKey<ScaffoldState>();
 
 class _HomeState extends State<Home> {

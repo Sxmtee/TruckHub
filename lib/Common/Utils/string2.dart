@@ -1,3 +1,7 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+String kGoogleApiKey = dotenv.env["GOOGLE_API_KEY"]!;
+
 const backgroundSvg = 'assets/svg/background.svg';
 const firstSvg = 'assets/svg/first.svg';
 const secondSvg = 'assets/svg/second.svg';

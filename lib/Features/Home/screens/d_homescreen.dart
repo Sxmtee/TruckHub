@@ -6,6 +6,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'package:trucks/Common/Utils/loader.dart';
+import 'package:trucks/Common/Utils/string2.dart';
 
 class DHome extends StatefulWidget {
   const DHome({super.key});
@@ -14,7 +15,6 @@ class DHome extends StatefulWidget {
   State<DHome> createState() => _DHomeState();
 }
 
-const kGoogleApiKey = "AIzaSyBaQJXtGKoxO_bK8iAD0lAQAX78lMgcqCM";
 final homekey = GlobalKey<ScaffoldState>();
 
 class _DHomeState extends State<DHome> {
