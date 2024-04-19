@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trucks/Common/Utils/dimension.dart';
@@ -46,7 +45,10 @@ class DriverDisplay extends ConsumerWidget {
               driverList.phoneNumber,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: const Icon(CupertinoIcons.forward),
+            trailing: Text(
+              "₦${driverList.priceFair}",
+              style: const TextStyle(fontSize: 15),
+            ),
           ),
         );
       },

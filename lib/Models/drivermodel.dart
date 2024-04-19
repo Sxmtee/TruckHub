@@ -5,15 +5,16 @@ class DriverModel {
   final String userToken;
   final String uid;
   final String email;
+  final String priceFair;
 
-  DriverModel({
-    required this.name,
-    required this.phoneNumber,
-    required this.userToken,
-    required this.profilePic,
-    required this.uid,
-    required this.email,
-  });
+  DriverModel(
+      {required this.name,
+      required this.phoneNumber,
+      required this.userToken,
+      required this.profilePic,
+      required this.uid,
+      required this.email,
+      required this.priceFair});
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,6 +24,7 @@ class DriverModel {
       "userToken": userToken,
       "user_id": uid,
       "email": email,
+      "priceFair": priceFair,
     };
   }
 
@@ -34,6 +36,7 @@ class DriverModel {
       profilePic: map["profilePic"],
       uid: map["user_id"],
       email: map["email"],
+      priceFair: map["priceFair"],
     );
   }
 }

@@ -22,6 +22,7 @@ class _DriverSignUpState extends ConsumerState<DriverSignUp> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+  final priceCtrl = TextEditingController();
 
   bool showPassword = false;
 
@@ -38,6 +39,7 @@ class _DriverSignUpState extends ConsumerState<DriverSignUp> {
           email: emailController.text.trim(),
           phone: phoneController.text.trim(),
           password: passwordController.text.trim(),
+          price: priceCtrl.text.trim(),
         );
   }
 
@@ -170,7 +172,27 @@ class _DriverSignUpState extends ConsumerState<DriverSignUp> {
                   },
                 ),
                 const SizedBox(
-                  height: 64,
+                  height: 20,
+                ),
+                TextAreas(
+                  controller: priceCtrl,
+                  hintText: 'Price fair',
+                  obscure: false,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                  keyboard: TextInputType.phone,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return "Please enter your price fair";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 60,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 63),

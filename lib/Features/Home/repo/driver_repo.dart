@@ -39,6 +39,7 @@ class DriverRepo {
             profilePic: user.profilePic,
             uid: user.uid,
             email: user.email,
+            priceFair: user.priceFair!,
           ),
         );
       }

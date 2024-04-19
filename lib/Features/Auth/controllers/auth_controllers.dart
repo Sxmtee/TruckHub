@@ -34,6 +34,7 @@ class AuthController {
     required String email,
     required String phone,
     required String password,
+    required String price,
   }) {
     authRepo.signDriverUp(
       context: context,
@@ -41,6 +42,7 @@ class AuthController {
       email: email,
       phone: phone,
       password: password,
+      price: price,
     );
   }
 

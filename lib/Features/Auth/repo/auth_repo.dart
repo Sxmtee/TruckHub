@@ -54,6 +54,7 @@ class AuthRepo {
     required String email,
     required String phone,
     required String password,
+    required String price,
   }) async {
     try {
       final userCredential = await auth.createUserWithEmailAndPassword(
@@ -72,6 +73,7 @@ class AuthRepo {
         uid: id,
         email: email,
         password: password,
+        priceFair: price,
       );
 
       await firestore.collection("drivers").doc(id).set(userDetails.toMap());
